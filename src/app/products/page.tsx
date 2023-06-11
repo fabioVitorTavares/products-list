@@ -2,23 +2,37 @@
 
 import { getData } from "@/api";
 import TableProducst from "@/components/TableProducts";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const dataColunm = ["id", "Nome", "Valor"];
-const dataRow = [
-  ["1", "Maçã", "1,50"],
-  ["2", "Banana", "2,50"],
-];
 
-const data = {
-  dataColunm,
-  dataRow,
-};
+type DataType = {
+  id: string,
+  name: string,
+  value: number,
+}
 
 export default function Home() {
+
+  const [dataRow, setDataRow] = useState<string[][]>([]);
+    
+  async function fethData() {
+    const dados = await getData() as DataType[];
+    setDataRow(dados.map(dado => {
+      return [dado?.id, dado?.name, dado?.value.toString()]
+    }))
+  }
+
   useEffect(() => {
-    // const dados = getData();
+    fethData();
   }, []);
+
+
+  const data = {
+    dataColunm,
+    dataRow,
+  };
+  
 
   return (
     <main className="main">
