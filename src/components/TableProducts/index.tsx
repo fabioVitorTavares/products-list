@@ -2,34 +2,31 @@
 import React from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 
-
-
 type DataType = {
   data: {
-    dataColunm: string[],
-    dataRow: string[][],
-  }
-}
+    dataColunm: string[];
+    dataRow: string[][] | undefined;
+  };
+};
 
-
-export default function TableProducst({ data: { dataColunm, dataRow } }: DataType) {
-
-  const columns = dataColunm.map(data => {
+export default function TableProducst({
+  data: { dataColunm, dataRow },
+}: DataType) {
+  const columns = dataColunm.map((data) => {
     return {
       field: data,
       headerName: data,
-      with: 150
-    }
-  })
+      with: 150,
+    };
+  });
 
-  const rows = dataRow.map(data => {
+  const rows = dataRow?.map((data) => {
     return {
       id: data[0],
       Nome: data[1],
-      Valor: data[2]
-    }
-  })
+      Valor: data[2],
+    };
+  }) as [];
 
-
-  return <DataGrid columns={columns} rows={rows}/>;
+  return <DataGrid columns={columns} rows={rows} />;
 }
